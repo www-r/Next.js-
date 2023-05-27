@@ -1,0 +1,36 @@
+# Server Components
+instead of React Rendering whole application client-side, react now gives the flexibility to choose where to render components based on their purpose
+[](https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fthinking-in-server-components.png&w=3840&q=75)
+
+- Why Server Components?(Advantages of using them over Client Components)
+  - allows developers to better leverage(to get as much advantage or profit as possible) server infrastructure 
+  - the initial page load is faster
+  - the client-side Javascript bundle size is reduced 
+  => the base client-side runtime is cacheable and predictable in size & does not increase as application grows
+- all components inside the App Router are Server Components **by default** ( can optionally opt-in to Client by using "use client")
+
+# Client Components
+- enable to add client-side interactivity to application
+- **is prerendered on the server and hydrated on the client**
+
+## "use client"
+- sits between server-only and client code
+- is placed at the top of the file(**above imports**)
+- once defined => all modules imported into it, including child components are considered part of the client bundle
+- doesn't have to be defined in every file => only needs to be defined once, at the "entry point" (because all modules imported into it are considered a Client Component)
+
+# When to use Server & Client Components
+|--|Server Component|Client Component|
+|--|--|--|
+|fetch data|O|X|
+|access backend resources(directly)|O|X|
+|keep sensitive infos on the server (access tokens, API keys, etc.)|O|X|
+|keep large dependencies on the server / reduce client=side javascript|O|X|
+|add interactivity(onClick(), etc.)|X|O|
+|use State and Lifecycle Effects|X|O|
+|use browser-only APIs|X|O|
+|use custom hooks that depend on the state, effects, or browser-only APIs|X|O|
+|use React Class component|X|O|
+
+- why React Class component?
+
