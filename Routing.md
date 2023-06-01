@@ -83,6 +83,65 @@
 : special file conventions are used to create UI for each route segment -> ```File Conventions```
 
 # Pages and Layouts
+
+## Pages
+Page: UI that is unique to a route, can define pages by exporting a component from a page.js 
+- a page is always the leaf of the route subtree
+- .js, .jsx, .tsx file extensions can be used for Pages
+- is Server Components by default but can be set to a Client Component
+- can fetch data
+
+## Layouts
+: UI that is shared between multiple pages
+- on navigation, preserve state, remain interactive, and do not re-render
+- any route segments can **optionally** define its own Layout
+- Server Components by default but can be set to a Client Component
+- can fetch data
+- passing data between a parent layout and its children is not possible, however can fetch same data in a route more than once and React will automatically dedupe the requests without affecting performance
+- do not have access to the current route segments. to access route segments, use ```useSelectedLayoutSegment```or ```useSelectedLayoutSegments```in a Client Component
+
+### Root Layout (Required)
+- defined at the top level of the app directory
+- applies to all routes
+- enables to modify the initial HTML returned from the server
+- root layout must define <html> and <body> 
+- can use the built-in SEO support to manage <head> 
+- can use route groups to create multiple root layouts
+[](https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Froute-group-multiple-root-layouts.png&w=3840&q=75)
+
+### Nesting Layouts
+- defined inside a folder 
+- nested by default(in the file hierarchy) => means they wrap child layouts via children prop
+- can use Route Groups to opt specific route segments in and out of shared layouts
+
+### Templates
+- can be defined by exporting template.js
+- should accept a children prop
+- are similar to layouts(wrap each child layout or page), but templates create a new instance for each of their children on navigation
+=> means that when a user navigates between routes that share template, a new instance of the component is mounted, DOM elements are recreated, state is not preserved, and effects are re-synchronized
+(unlike layouts persists across routes and maintain state)
+
+- #### cases when templates would be more suitable than layouts (use only when have specific reasons)
+  - enter/exit animations using CSS or animation libraries
+  - features that rely on useEffect(- logging page views) and useState(-a per-page feedback form)
+  - to change the default framework behavior
+  (Suspense Boundaries inside layouts only show fallback the first time the Layout is loaded but Template is shown on each navigation)
+
+### Modifying <head>
+- **should not manually add <head> such as <title> to root layouts**
+- metadata can be defined by exporting a metadata object or ```generateMetadata``` in a layout.js or page.js
+```
+import { Metadata } from 'next';
+ 
+export const metadata: Metadata = {
+  title: 'Next.js',
+};
+ 
+export default function Page() {
+  return '...';
+}
+```
+
 # Linking and navigating
 # Route Groups
 # Dynamic Routes
