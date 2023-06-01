@@ -77,6 +77,10 @@
 
 # Defining Routes
 
+- Creating Routes
+[](https://nextjs.org/_next/image?url=%2Fdocs%2Fdark%2Fdefining-routes.png&w=3840&q=75)
+- Creating UI
+: special file conventions are used to create UI for each route segment -> ```File Conventions```
 
 # Pages and Layouts
 # Linking and navigating
